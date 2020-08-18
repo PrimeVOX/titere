@@ -1,0 +1,25 @@
+{
+  "name": "titere",
+  "version": "0.0.1",
+  "main": "dist/index.js",
+  "license": "MIT",
+  "description": "CLI and lib access to Puppeteer",
+  "repository": "https://github.com/primevox/titere.git",
+  "author": "Aaron Hazelton <abhazelton@gmail.com>",
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@types/node": "^14.0.27",
+    "nodemon": "^2.0.4",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.7"
+  },
+  "dependencies": {
+    "fs-extra": "^9.0.1",
+    "p-map": "^4.0.0",
+    "path": "^0.12.7",
+    "puppeteer": "^5.2.1",
+    "rimraf": "^3.0.2"
+  }
+}
