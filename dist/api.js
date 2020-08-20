@@ -21,7 +21,6 @@ const p_map_1 = __importDefault(require("p-map"));
 const utils_1 = require("./utils");
 // set up dir
 const cwd = path_1.join(process.cwd(), 'pdfs');
-fs_extra_1.ensureDirSync(cwd);
 /**
  * Generate single PDF from URL or HTML string, returning Buffer
  * for immediate display or usage.
@@ -42,7 +41,8 @@ function inline(urlOrHtml) {
             return buf;
         }
         catch (err) {
-            return undefined;
+            // if we're here, then we couldn't launch Puppeteer or something bad happened
+            throw new Error('Whoops, couldn\'t launch Puppeteer!');
         }
     });
 }
@@ -86,8 +86,13 @@ exports.clean = clean;
  */
 function store(batch, files) {
     return __awaiter(this, void 0, void 0, function* () {
-        // set up batch dir
-        fs_extra_1.ensureDirSync(cwd + '/' + batch);
+        // set up batch dir, this will add any missing dirs in path, too
+        try {
+            yield fs_extra_1.ensureDir(path_1.join(cwd, batch));
+        }
+        catch (err) {
+            throw new Error(`Couldn't create batch directory at: ${path_1.join(cwd, batch)}`);
+        }
         try {
             const browser = yield puppeteer_1.default.launch();
             const mapper = (file) => __awaiter(this, void 0, void 0, function* () {

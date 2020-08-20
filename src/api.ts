@@ -1,6 +1,6 @@
 import puppeteer from 'puppeteer';
 import rimraf from 'rimraf';
-import { ensureDirSync } from 'fs-extra';
+import { ensureDir } from 'fs-extra';
 import { join } from 'path';
 import pMap from 'p-map';
 import { isUrl } from './utils';
@@ -8,7 +8,6 @@ import { IFile } from './types';
 
 // set up dir
 const cwd = join(process.cwd(), 'pdfs');
-ensureDirSync(cwd);
 
 /**
  * Generate single PDF from URL or HTML string, returning Buffer
@@ -34,7 +33,8 @@ export async function inline(urlOrHtml: string): Promise<Buffer> {
   }
 
   catch (err) {
-    return undefined;
+    // if we're here, then we couldn't launch Puppeteer or something bad happened
+    throw new Error('Whoops, couldn\'t launch Puppeteer!');
   }
 
 }
@@ -76,8 +76,13 @@ export async function clean(batch: string, pattern?: string): Promise<boolean> {
  */
 export async function store(batch: string, files: IFile[]): Promise<IFile[]> {
 
-  // set up batch dir
-  ensureDirSync(cwd + '/' + batch);
+  // set up batch dir, this will add any missing dirs in path, too
+  try {
+    await ensureDir(join(cwd, batch));
+  }
+  catch (err) {
+    throw new Error(`Couldn't create batch directory at: ${join(cwd, batch)}`);
+  }
 
   try {
     const browser = await puppeteer.launch();

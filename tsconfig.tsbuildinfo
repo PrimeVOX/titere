@@ -157,12 +157,12 @@
         "affectsGlobalScope": false
       },
       "./src/api.ts": {
-        "version": "741b329f856517669f4af36b62087f006af1886381f1ca144bfc4bb4f6624cf5",
+        "version": "d449c630313334b068cb9bcf8d398a2b48497a8027403f4ce4df8bc9de9b9d8b",
         "signature": "5f9435a3e274c164ed87e23482d9838921e4ad5f16efd4e5f334d9a2bc45af05",
         "affectsGlobalScope": false
       },
       "./src/cli.ts": {
-        "version": "19881a2651688ed8e06e677fdfef3bdca1111838390e98e9a6b7951720f5d6f0",
+        "version": "9e55c7c532e5669fc061d64584a43f840ab2f4985a3f06906010fa21bd6266d0",
         "signature": "a24f977cc1664c8218a660684c38e27ef0e7289242ba4763691d50df763a3af3",
         "affectsGlobalScope": false
       },

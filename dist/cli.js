@@ -32,11 +32,11 @@ function cli() {
       -h, --help    displays help.
     `;
         console.log(help);
-        process.exit();
+        return;
     }
     if (!cmd) {
-        console.error(`A command to run must be specified.`);
-        process.exit();
+        process.stderr.write(`A command to run must be specified.`, 'utf-8');
+        return;
     }
     ///////////////////////////////
     // INLINE
@@ -45,16 +45,15 @@ function cli() {
         const urlOrHtml = argv.shift();
         // can only accept one incoming param, all others ignored
         if (!urlOrHtml) {
-            console.error('A URL or string of HTML must be specified.');
-            process.exit();
+            process.stderr.write('A URL or string of HTML must be specified.', 'utf-8');
+            return;
         }
         (() => __awaiter(this, void 0, void 0, function* () {
             const buf = yield api_1.inline(urlOrHtml);
             if (buf)
-                process.stdout.write(buf);
+                process.stdout.write(buf, 'utf-8');
             else
-                process.stderr.write('PDF could not be created.\n');
-            process.exit();
+                process.stderr.write('PDF could not be created.\n', 'utf-8');
         }))();
     }
     ///////////////////////////////
@@ -64,16 +63,15 @@ function cli() {
         const batch = argv.shift();
         let pattern = argv.shift();
         if (!batch) {
-            console.error('A batch identifier string must be specified.');
-            process.exit();
+            process.stderr.write('A batch identifier string must be specified.', 'utf-8');
+            return;
         }
         (() => __awaiter(this, void 0, void 0, function* () {
             const didClean = yield api_1.clean(batch, pattern);
             if (didClean)
-                process.stdout.write(`Requested files from ${batch} batch removed.\n`);
+                process.stdout.write(`Requested files from ${batch} batch removed.\n`, 'utf-8');
             else
-                process.stderr.write('Files could not be removed.\n');
-            process.exit();
+                process.stderr.write('Files could not be removed.\n', 'utf-8');
         }))();
     }
     ///////////////////////////////
@@ -82,12 +80,12 @@ function cli() {
     else if (cmd === 'store') {
         const batch = argv.shift();
         if (!batch) {
-            console.error('A batch identifier string must be specified.');
-            process.exit();
+            process.stderr.write('A batch identifier string must be specified.', 'utf-8');
+            return;
         }
         if (!argv.length) {
-            console.error('No files were specified to generate PDFs.');
-            process.exit();
+            process.stderr.write('No files were specified to generate PDFs.', 'utf-8');
+            return;
         }
         // get files objs set up, if args weren't formatted correctly, error from here to skip them
         let files = [...argv].map((arg, i) => {
@@ -115,12 +113,11 @@ function cli() {
             // will throw error if global failure like can't get puppeteer instance
             try {
                 files = yield api_1.store(batch, files);
-                process.stdout.write(JSON.stringify(files));
+                process.stdout.write(JSON.stringify(files), 'utf-8');
             }
             catch (err) {
-                process.stderr.write(err.message);
+                process.stderr.write(err.message, 'utf-8');
             }
-            process.exit();
         }))();
     }
 }
