@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "fs-extra": "^9.0.1",
+    "dotenv": "^8.2.0",
     "p-map": "^4.0.0",
     "path": "^0.12.7",
     "puppeteer": "^5.2.1",
