@@ -50,7 +50,7 @@ function inline(urlOrHtml) {
         }
         catch (err) {
             // if we're here, then we couldn't launch Puppeteer or something bad happened
-            throw new Error('Whoops, couldn\'t launch Puppeteer!');
+            return false;
         }
     });
 }

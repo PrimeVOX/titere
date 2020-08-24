@@ -50,12 +50,12 @@ function cli() {
         }
         (() => __awaiter(this, void 0, void 0, function* () {
             const buf = yield api_1.inline(urlOrHtml);
-            if (buf) {
-                process.stdout.write(buf, 'utf-8');
+            if (typeof buf === 'boolean' && buf === false) {
+                process.stderr.write('PDF could not be created.\n', 'utf-8');
                 process.exit();
             }
             else {
-                process.stderr.write('PDF could not be created.\n', 'utf-8');
+                process.stdout.write(buf, 'utf-8');
                 process.exit();
             }
         }))();

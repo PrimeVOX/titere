@@ -16,7 +16,7 @@ const cwd = join(process.cwd(), 'pdfs');
  * @param  {string} urlOrHtml
  * @returns Promise<Buffer>
  */
-export async function inline(urlOrHtml: string): Promise<Buffer> {
+export async function inline(urlOrHtml: string): Promise<Buffer|false> {
 
   const LOGO = process.env.LOGO;
 
@@ -44,7 +44,7 @@ export async function inline(urlOrHtml: string): Promise<Buffer> {
 
   catch (err) {
     // if we're here, then we couldn't launch Puppeteer or something bad happened
-    throw new Error('Whoops, couldn\'t launch Puppeteer!');
+    return false;
   }
 
 }

@@ -7,7 +7,7 @@ import { IFile } from './types';
  * @param  {string} urlOrHtml
  * @returns Promise<Buffer>
  */
-export declare function inline(urlOrHtml: string): Promise<Buffer>;
+export declare function inline(urlOrHtml: string): Promise<Buffer | false>;
 /**
  * Remove previously generated PDF file(s) and batch directory
  *
