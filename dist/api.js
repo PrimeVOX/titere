@@ -30,13 +30,21 @@ const cwd = path_1.join(process.cwd(), 'pdfs');
  */
 function inline(urlOrHtml) {
     return __awaiter(this, void 0, void 0, function* () {
+        const LOGO = process.env.LOGO;
+        // we need these env vars
+        if (!LOGO) {
+            throw new Error('LOGO ENV variable is missing!');
+        }
         try {
             const browser = yield puppeteer_1.default.launch();
             const page = yield browser.newPage();
             if (utils_1.isUrl(urlOrHtml))
                 yield page.goto(urlOrHtml);
-            else
-                yield page.setContent(urlOrHtml);
+            else {
+                // add in logo if needed
+                const html = urlOrHtml.replace('{{LOGO}}', LOGO);
+                yield page.setContent(html);
+            }
             const buf = yield page.pdf();
             return buf;
         }
