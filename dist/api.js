@@ -30,23 +30,13 @@ const cwd = path_1.join(process.cwd(), 'pdfs');
  */
 function inline(urlOrHtml) {
     return __awaiter(this, void 0, void 0, function* () {
-        const URL_INVOICE = process.env.URL_INVOICE;
-        if (!URL_INVOICE) {
-            process.stderr.write('URL_INVOICE ENV variable is missing!', 'utf-8');
-            process.exit();
-        }
         try {
             const browser = yield puppeteer_1.default.launch();
             const page = yield browser.newPage();
             if (utils_1.isUrl(urlOrHtml))
                 yield page.goto(urlOrHtml);
-            else if (utils_1.isHtml(urlOrHtml))
+            else
                 yield page.setContent(urlOrHtml);
-            else {
-                // must be token
-                const url = URL_INVOICE + urlOrHtml;
-                yield page.goto(url);
-            }
             const buf = yield page.pdf();
             return buf;
         }
