@@ -1,2 +1,2 @@
-declare const instance: void;
-export default instance;
+declare function cli(): void;
+export default cli;

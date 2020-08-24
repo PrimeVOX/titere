@@ -28,12 +28,12 @@ function cli() {
       -h, --help    displays help.
     `;
     console.log(help);
-    return;
+    process.exit();
   }
 
   if (!cmd) {
     process.stderr.write(`A command to run must be specified.`, 'utf-8');
-    return;
+    process.exit();
   }
 
   ///////////////////////////////
@@ -47,17 +47,21 @@ function cli() {
     // can only accept one incoming param, all others ignored
     if (!urlOrHtml) {
       process.stderr.write('A URL or string of HTML must be specified.', 'utf-8');
-      return;  
+      process.exit();
     }
 
     (async () => {
 
       const buf = await inline(urlOrHtml);
 
-      if (buf)
+      if (buf) {
         process.stdout.write(buf, 'utf-8');
-      else
+        process.exit();
+      }
+      else {
         process.stderr.write('PDF could not be created.\n', 'utf-8');
+        process.exit();
+      }
 
     })();
 
@@ -74,17 +78,21 @@ function cli() {
 
     if (!batch) {
       process.stderr.write('A batch identifier string must be specified.', 'utf-8');
-      return;  
+      process.exit();
     }
 
     (async () => {
 
       const didClean = await clean(batch, pattern);
 
-      if (didClean)
+      if (didClean) {
         process.stdout.write(`Requested files from ${batch} batch removed.\n`, 'utf-8');
-      else
-        process.stderr.write('Files could not be removed.\n', 'utf-8');
+        process.exit();
+      }
+      else {
+        process.stderr.write('Files could not be removed.\n', 'utf-8'); 
+        process.exit();
+      }
 
     })();
 
@@ -100,12 +108,12 @@ function cli() {
     
     if (!batch) {
       process.stderr.write('A batch identifier string must be specified.', 'utf-8');
-      return;  
+      process.exit();
     }
 
     if (!argv.length) {
       process.stderr.write('No files were specified to generate PDFs.', 'utf-8');
-      return;  
+      process.exit();
     }
 
     // get files objs set up, if args weren't formatted correctly, error from here to skip them
@@ -138,10 +146,12 @@ function cli() {
       try {
         files = await store(batch, files);
         process.stdout.write(JSON.stringify(files), 'utf-8');
+        process.exit();
       }
 
       catch (err) {
         process.stderr.write(err.message, 'utf-8');
+        process.exit();
       }
 
     })();
@@ -150,5 +160,4 @@ function cli() {
 
 }
 
-const instance = cli();
-export default instance;
+export default cli;

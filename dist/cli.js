@@ -32,11 +32,11 @@ function cli() {
       -h, --help    displays help.
     `;
         console.log(help);
-        return;
+        process.exit();
     }
     if (!cmd) {
         process.stderr.write(`A command to run must be specified.`, 'utf-8');
-        return;
+        process.exit();
     }
     ///////////////////////////////
     // INLINE
@@ -46,14 +46,18 @@ function cli() {
         // can only accept one incoming param, all others ignored
         if (!urlOrHtml) {
             process.stderr.write('A URL or string of HTML must be specified.', 'utf-8');
-            return;
+            process.exit();
         }
         (() => __awaiter(this, void 0, void 0, function* () {
             const buf = yield api_1.inline(urlOrHtml);
-            if (buf)
+            if (buf) {
                 process.stdout.write(buf, 'utf-8');
-            else
+                process.exit();
+            }
+            else {
                 process.stderr.write('PDF could not be created.\n', 'utf-8');
+                process.exit();
+            }
         }))();
     }
     ///////////////////////////////
@@ -64,14 +68,18 @@ function cli() {
         let pattern = argv.shift();
         if (!batch) {
             process.stderr.write('A batch identifier string must be specified.', 'utf-8');
-            return;
+            process.exit();
         }
         (() => __awaiter(this, void 0, void 0, function* () {
             const didClean = yield api_1.clean(batch, pattern);
-            if (didClean)
+            if (didClean) {
                 process.stdout.write(`Requested files from ${batch} batch removed.\n`, 'utf-8');
-            else
+                process.exit();
+            }
+            else {
                 process.stderr.write('Files could not be removed.\n', 'utf-8');
+                process.exit();
+            }
         }))();
     }
     ///////////////////////////////
@@ -81,11 +89,11 @@ function cli() {
         const batch = argv.shift();
         if (!batch) {
             process.stderr.write('A batch identifier string must be specified.', 'utf-8');
-            return;
+            process.exit();
         }
         if (!argv.length) {
             process.stderr.write('No files were specified to generate PDFs.', 'utf-8');
-            return;
+            process.exit();
         }
         // get files objs set up, if args weren't formatted correctly, error from here to skip them
         let files = [...argv].map((arg, i) => {
@@ -114,13 +122,14 @@ function cli() {
             try {
                 files = yield api_1.store(batch, files);
                 process.stdout.write(JSON.stringify(files), 'utf-8');
+                process.exit();
             }
             catch (err) {
                 process.stderr.write(err.message, 'utf-8');
+                process.exit();
             }
         }))();
     }
 }
-const instance = cli();
-exports.default = instance;
+exports.default = cli;
 //# sourceMappingURL=cli.js.map
