@@ -38,6 +38,7 @@ export async function inline(urlOrHtml: string): Promise<Buffer|false> {
     }
 
     const buf: Buffer = await page.pdf();
+    await browser.close();
     
     return buf;
   }
@@ -130,6 +131,8 @@ export async function store(batch: string, files: IFile[]): Promise<IFile[]> {
       }
     };
 
+    await browser.close();
+    
     // no need to process ones that already failed from arg checks
     const alreadyFailed = files.filter(f => f.failed);
     let mappedFiles = files.filter(f => !f.failed);

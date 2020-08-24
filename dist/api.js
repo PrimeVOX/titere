@@ -46,6 +46,7 @@ function inline(urlOrHtml) {
                 yield page.setContent(html);
             }
             const buf = yield page.pdf();
+            yield browser.close();
             return buf;
         }
         catch (err) {
@@ -125,6 +126,7 @@ function store(batch, files) {
                     return Object.assign(Object.assign({}, file), { result: 'ERROR: There was a problem generating the PDF.' });
                 }
             });
+            yield browser.close();
             // no need to process ones that already failed from arg checks
             const alreadyFailed = files.filter(f => f.failed);
             let mappedFiles = files.filter(f => !f.failed);
