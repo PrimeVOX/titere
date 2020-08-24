@@ -9,7 +9,12 @@ var __createBinding = (this && this.__createBinding) || (Object.create ? (functi
 var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !exports.hasOwnProperty(p)) __createBinding(exports, m, p);
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+const cli_1 = __importDefault(require("./cli"));
 __exportStar(require("./api"), exports);
 __exportStar(require("./types"), exports);
+(() => { cli_1.default(); })();
 //# sourceMappingURL=index.js.map

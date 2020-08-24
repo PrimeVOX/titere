@@ -162,12 +162,12 @@
         "affectsGlobalScope": false
       },
       "./src/cli.ts": {
-        "version": "838dac48be920b06de02c6acc463df7a92ded867493921854fad49738b65c38c",
+        "version": "e6e9160b4dbd4a456275886e9b24463241ab9230193934893c9d20949766cb4b",
         "signature": "949e135da0c86b20d1c475f5b29c931004e22c2109f320679f3f3e49c265bb61",
         "affectsGlobalScope": false
       },
       "./src/index.ts": {
-        "version": "d71b03a09b1004e52c0fc61abd998b2d7ae25b8a694cecca17d643ed39ca4b1b",
+        "version": "9a8d8c7cc61ecba3c569bb7e27dfcfbb6198bd8a7813caee0a049b948facb05b",
         "signature": "d71b03a09b1004e52c0fc61abd998b2d7ae25b8a694cecca17d643ed39ca4b1b",
         "affectsGlobalScope": false
       },
@@ -1249,6 +1249,7 @@
         "./node_modules/@types/node/ts3.2/util.d.ts",
         "./node_modules/@types/node/util.d.ts",
         "./src/api.ts",
+        "./src/cli.ts",
         "./src/types.ts"
       ],
       "./src/types.ts": [
