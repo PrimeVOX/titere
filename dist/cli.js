@@ -22,7 +22,7 @@ function cli() {
         const help = `
     Titere
     Commands:
-      inline <url|string>                     Generate single PDF from URL or HTML string, 
+      inline <url|string|token>                     Generate single PDF from URL or HTML string, 
                                                 returned as Buffer.
       store <batch> [filename|(url|string)]   Generate and store PDFs to location. Matching 
                                                 array of results returned.
@@ -131,6 +131,5 @@ function cli() {
         }))();
     }
 }
-const instance = cli();
-exports.default = instance;
+exports.default = cli;
 //# sourceMappingURL=cli.js.map

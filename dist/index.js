@@ -16,5 +16,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const cli_1 = __importDefault(require("./cli"));
 __exportStar(require("./api"), exports);
 __exportStar(require("./types"), exports);
-exports.default = cli_1.default;
+// allow running cli
+(() => { cli_1.default(); })();
 //# sourceMappingURL=index.js.map

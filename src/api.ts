@@ -3,7 +3,7 @@ import rimraf from 'rimraf';
 import { ensureDir } from 'fs-extra';
 import { join } from 'path';
 import pMap from 'p-map';
-import { isUrl } from './utils';
+import { isUrl, isHtml } from './utils';
 import { IFile } from './types';
 
 // set up dir
@@ -18,14 +18,26 @@ const cwd = join(process.cwd(), 'pdfs');
  */
 export async function inline(urlOrHtml: string): Promise<Buffer> {
 
+  const URL_INVOICE = process.env.URL_INVOICE;
+
+  if (!URL_INVOICE) {
+    process.stderr.write('URL_INVOICE ENV variable is missing!', 'utf-8');
+    process.exit();
+  }  
+
   try {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
 
     if (isUrl(urlOrHtml))
       await page.goto(urlOrHtml);
-    else
+    else if (isHtml(urlOrHtml))
       await page.setContent(urlOrHtml);
+    else {
+      // must be token
+      const url = URL_INVOICE + urlOrHtml;
+      await page.goto(url);
+    }
 
     const buf: Buffer = await page.pdf();
     
