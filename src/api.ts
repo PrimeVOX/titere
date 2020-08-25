@@ -18,24 +18,14 @@ const cwd = join(process.cwd(), 'pdfs');
  */
 export async function inline(urlOrHtml: string): Promise<Buffer|false> {
 
-  const LOGO = process.env.LOGO;
-
-  // we need these env vars
-  if (!LOGO) {
-    throw new Error('LOGO ENV variable is missing!');
-  }
-
   try {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
 
     if (isUrl(urlOrHtml))
       await page.goto(urlOrHtml);
-    else {
-      // add in logo if needed
-      const html = urlOrHtml.replace('{{LOGO}}', LOGO);
-      await page.setContent(html);
-    }
+    else
+      await page.setContent(urlOrHtml);
 
     const buf: Buffer = await page.pdf();
     await browser.close();
