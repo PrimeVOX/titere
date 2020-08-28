@@ -118,11 +118,11 @@ function store(batch, files) {
                     return Object.assign(Object.assign({}, file), { result: 'ERROR: There was a problem generating the PDF.' });
                 }
             });
-            yield browser.close();
             // no need to process ones that already failed from arg checks
             const alreadyFailed = files.filter(f => f.failed);
             let mappedFiles = files.filter(f => !f.failed);
             mappedFiles = yield p_map_1.default(mappedFiles, mapper, { concurrency: 3 });
+            yield browser.close();
             return [...alreadyFailed, ...mappedFiles];
         }
         catch (err) {

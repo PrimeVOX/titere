@@ -121,14 +121,14 @@ export async function store(batch: string, files: IFile[]): Promise<IFile[]> {
       }
     };
 
-    await browser.close();
-    
     // no need to process ones that already failed from arg checks
     const alreadyFailed = files.filter(f => f.failed);
     let mappedFiles = files.filter(f => !f.failed);
-
+    
     mappedFiles = await pMap(mappedFiles, mapper, { concurrency: 3 });
-
+    
+    await browser.close();
+    
     return [...alreadyFailed, ...mappedFiles];
     
   }
